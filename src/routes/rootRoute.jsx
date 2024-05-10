@@ -2,16 +2,14 @@ import { createBrowserRouter, createRoutesFromElements, Route } from 'react-rout
 
 const rootRoute = createBrowserRouter(
     createRoutesFromElements(
-        <Route element={<></>}>
-            {' '}
-            {/* Root */}
-            <Route element={<></>}>
-                {' '}
-                {/* Default layout */}
-                <Route path="/" element={<></>} /> {/* HomePage */}
-                <Route path="/class" element={<></>} /> {/* HomePage */}
+        <Route>
+            {/* Default layout */}
+            <Route>
+                {/* HomePage */}
+                <Route path="/" element={<h1>Hello</h1>} /> 
+                <Route path="/class" element={<></>} />
             </Route>
-        </Route>,
+        </Route>
     ),
 )
 
