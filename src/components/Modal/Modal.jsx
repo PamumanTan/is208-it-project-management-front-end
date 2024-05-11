@@ -17,7 +17,7 @@ export default function Modal({ open, onClose, title, children, buttons, classNa
                 )}
             >
                 <div className="modal-header flex items-center justify-center p-4">
-                    <h1 className="text-2xl font-bold">{title}</h1>
+                    <h1 className="text-center text-2xl font-bold">{title}</h1>
                 </div>
 
                 {children}

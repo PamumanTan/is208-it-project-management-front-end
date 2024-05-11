@@ -3,7 +3,7 @@ import Modal from '../Modal'
 import Button from '@mui/material/Button'
 import { useForm } from 'react-hook-form'
 
-export default function AddAccountModal({ open, onClose, onSubmit }) {
+export default function EditAccountModal({ open, onClose, onSubmit }) {
     const {
         register,
         handleSubmit,
@@ -11,7 +11,7 @@ export default function AddAccountModal({ open, onClose, onSubmit }) {
     } = useForm()
 
     return (
-        <Modal title={'Tạo Tài Khoản'} open={open} onClose={onClose}>
+        <Modal title={'Sửa Tài Khoản'} open={open} onClose={onClose}>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 px-4">
                 <div className="flex flex-col gap-1">
                     <label htmlFor="id">Mã giáo viên</label>
@@ -22,6 +22,7 @@ export default function AddAccountModal({ open, onClose, onSubmit }) {
                     )}
                     <input
                         className="rounded border border-gray-500 px-2 py-1"
+                        disabled
                         {...register('id', { required: true })}
                     />
                 </div>
