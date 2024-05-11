@@ -8,15 +8,15 @@ const rootRoute = createBrowserRouter(
             {/* Default layout */}
             <Route>
                 {/* HomePage */}
-                <Route path="/" element={<h1>Hello</h1>} /> 
+                <Route path="/" element={<h1>Hello</h1>} />
                 <Route path="/class" element={<></>} />
             </Route>
 
             {/* Admin layout */}
-            <Route path='/admin' element={<AdminLayout />}>
-                <Route path='manage-account' element={<ManageAccount />} />
+            <Route path="/admin" element={<AdminLayout />}>
+                <Route path="manage-account" element={<ManageAccount />} />
             </Route>
-        </Route>
+        </Route>,
     ),
 )
 
