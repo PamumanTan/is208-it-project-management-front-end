@@ -54,7 +54,7 @@ export default function AdminLoginPage() {
                 },
             )
             // console.log("res: ", res);
-            clientInstance.setAccessToken(res)
+            clientInstance.setAccessToken(res.accessToken)
             navigate(routing['manage-account'])
         } catch (error) {}
     }
