@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios'
+import axios from 'axios'
 
 export default class ClientRequest {
     /**
@@ -9,19 +9,19 @@ export default class ClientRequest {
 
     /**
      * @private
-     * @type {AxiosInstance}
+     * @type {import('axios').AxiosInstance}
      */
     static api = null
 
     static getAPI() {
         if (!ClientRequest.api) {
             ClientRequest.api = new axios.create({
-                baseURL: '',
+                baseURL: import.meta.env.VITE_BASE_URL,
                 timeout: 5000,
             })
 
             ClientRequest.api.interceptors.request.use((config) => {
-                const token = ClientRequest.clientInstance.getAccessToken()
+                const token = ClientRequest.getClientInstance().getAccessToken()
                 if (token) {
                     config.headers.Authorization = `Bearer ${token}`
                 }
@@ -56,18 +56,18 @@ export default class ClientRequest {
     listeners = []
 
     getAccessToken() {
-        return localStorage.getItem('access_token')
+        return localStorage.getItem('access-token')
     }
 
     /**
      * @param {string} accessToken
      */
     setAccessToken(accessToken) {
-        localStorage.setItem('access_token', accessToken)
+        localStorage.setItem('access-token', accessToken)
     }
 
     removeAccessToken() {
-        localStorage.removeItem('access_token')
+        localStorage.removeItem('access-token')
     }
 
     /**

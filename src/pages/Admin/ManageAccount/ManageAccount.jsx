@@ -10,8 +10,15 @@ import Button from '@mui/material/Button'
 import { AddAccountModal } from '~/components/Modal/AddAccountModal'
 import { DeleteAccountModal } from '~/components/Modal/DeleteAccountModal'
 import { EditAccountModal } from '~/components/Modal/EditAccountModal'
+import { useQuery } from '@tanstack/react-query'
+import accountAction from '~/services/axios/actions/account.action'
 
 export default function ManageAccount() {
+    const { data } = useQuery({
+        queryKey: 'get-all-accounts',
+        queryFn: accountAction.getAllAccounts
+    })
+
     const [isOpenAddModal, setIsOpenAddModal] = useState(false)
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
     const [isOpenEditModal, setIsOpenEditModal] = useState(false)
@@ -50,22 +57,23 @@ export default function ManageAccount() {
                         </TableRow>
                     </TableHead>
                     <TableBody className="[&_td]:text-center [&_th]:text-center">
-                        <TableRow
+                        { data && data.map(value => (
+                            <TableRow
                             // key={row.name}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row">
-                                GV001
+                                {value._id}
                             </TableCell>
-                            <TableCell>giaovien001@gmail.com</TableCell>
-                            <TableCell>Nguyen Van A</TableCell>
+                            <TableCell>{value.email}</TableCell>
+                            <TableCell>{value.teacherName}</TableCell>
                             <TableCell>
                                 <div className="flex flex-row justify-center gap-2">
                                     <Button
                                         variant="contained"
                                         color="info"
                                         onClick={() =>
-                                            handleEditClick({ email: 'giaovien001@gmail.com' })
+                                            handleEditClick(value)
                                         }
                                     >
                                         Sửa
@@ -74,7 +82,7 @@ export default function ManageAccount() {
                                         variant="contained"
                                         color="error"
                                         onClick={() =>
-                                            handleDeleteClick({ email: 'giaovien001@gmail.com' })
+                                            handleDeleteClick(value)
                                         }
                                     >
                                         Xóa
@@ -82,6 +90,8 @@ export default function ManageAccount() {
                                 </div>
                             </TableCell>
                         </TableRow>
+                        ))}
+                        
                     </TableBody>
                 </Table>
             </TableContainer>
