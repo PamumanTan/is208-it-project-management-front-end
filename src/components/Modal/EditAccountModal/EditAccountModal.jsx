@@ -1,28 +1,33 @@
-import React, { useId } from 'react'
+import React, { useEffect, useId } from 'react'
 import Modal from '../Modal'
 import Button from '@mui/material/Button'
 import { useForm } from 'react-hook-form'
 
-export default function EditAccountModal({ open, onClose, onSubmit }) {
+export default function EditAccountModal({ open, onClose, onSubmit, account }) {
     const {
         register,
         handleSubmit,
         formState: { errors },
+        setValue,
+        reset,
     } = useForm()
+
+    useEffect(() => {
+        reset()
+        setValue('id', account?._id)
+        setValue('email', account?.email)
+        setValue('name', account?.teacherName)
+    }, [account])
 
     return (
         <Modal title={'Sửa Tài Khoản'} open={open} onClose={onClose}>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 px-4">
                 <div className="flex flex-col gap-1">
                     <label htmlFor="id">Mã giáo viên</label>
-                    {errors.id && (
-                        <span className="text-xs italic text-red-500">
-                            Bạn chưa điền Mã giáo viên
-                        </span>
-                    )}
                     <input
                         className="rounded border border-gray-500 px-2 py-1"
                         disabled
+                        // value={account._id}
                         {...register('id', { required: true })}
                     />
                 </div>
@@ -46,7 +51,7 @@ export default function EditAccountModal({ open, onClose, onSubmit }) {
                         {...register('name', { required: true })}
                     />
                 </div>
-                <div className="flex flex-col gap-1">
+                {/* <div className="flex flex-col gap-1">
                     <label htmlFor="password">Mật khẩu</label>
                     {errors.password && (
                         <span className="text-xs italic text-red-500">Bạn chưa điền Password</span>
@@ -56,13 +61,13 @@ export default function EditAccountModal({ open, onClose, onSubmit }) {
                         type="password"
                         {...register('password', { required: true })}
                     />
-                </div>
+                </div> */}
                 <div className="flex justify-end gap-2 py-4">
                     <Button variant="contained" color="error" type="button" onClick={onClose}>
                         Hủy
                     </Button>
                     <Button variant="contained" type="submit">
-                        Tạo
+                        Sửa
                     </Button>
                 </div>
             </form>

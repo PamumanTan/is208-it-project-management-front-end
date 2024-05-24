@@ -13,7 +13,7 @@ export default function AddAccountModal({ open, onClose, onSubmit }) {
     return (
         <Modal title={'Tạo Tài Khoản'} open={open} onClose={onClose}>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 px-4">
-                <div className="flex flex-col gap-1">
+                {/* <div className="flex flex-col gap-1">
                     <label htmlFor="id">Mã giáo viên</label>
                     {errors.id && (
                         <span className="text-xs italic text-red-500">
@@ -24,7 +24,7 @@ export default function AddAccountModal({ open, onClose, onSubmit }) {
                         className="rounded border border-gray-500 px-2 py-1"
                         {...register('id', { required: true })}
                     />
-                </div>
+                </div> */}
                 <div className="flex flex-col gap-1">
                     <label htmlFor="email">Email</label>
                     {errors.email && (
@@ -47,13 +47,27 @@ export default function AddAccountModal({ open, onClose, onSubmit }) {
                 </div>
                 <div className="flex flex-col gap-1">
                     <label htmlFor="password">Mật khẩu</label>
-                    {errors.password && (
-                        <span className="text-xs italic text-red-500">Bạn chưa điền Password</span>
-                    )}
+                    {errors.password &&
+                        (errors.password.type === 'validate' ? (
+                            <span className="text-xs italic text-red-500">
+                                Password không ít hơn 8 kí tự
+                            </span>
+                        ) : (
+                            <span className="text-xs italic text-red-500">
+                                Bạn chưa điền Password
+                            </span>
+                        ))}
                     <input
                         className="rounded border border-gray-500 px-2 py-1"
                         type="password"
-                        {...register('password', { required: true })}
+                        {...register('password', {
+                            required: true,
+                            validate: (password) => {
+                                if (password.length < 8) {
+                                    return 'PASSWORD_LENGTH_MISMATCH'
+                                }
+                            },
+                        })}
                     />
                 </div>
                 <div className="flex justify-end gap-2 py-4">
