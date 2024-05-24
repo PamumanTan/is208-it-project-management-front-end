@@ -9,10 +9,12 @@ const queryClient = new QueryClient()
 
 function App() {
     return (
-        <QueryClientProvider client={queryClient}>
-            <RouterProvider router={rootRoute} />
-            <ToastContainer autoClose={3000} />
-        </QueryClientProvider>
+        <div className="h-screen w-screen">
+            <QueryClientProvider client={queryClient}>
+                <RouterProvider router={rootRoute} />
+                <ToastContainer autoClose={3000} />
+            </QueryClientProvider>
+        </div>
     )
 }
 

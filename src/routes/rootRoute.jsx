@@ -1,5 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom'
-import { AdminLayout } from '~/components/AdminLayout'
+import { AdminLayout } from '~/layouts/AdminLayout'
+import UserLayout from '~/layouts/UserLayout'
 import { AdminLoginPage } from '~/pages/Admin/AdminLoginPage'
 import { ManageAccount } from '~/pages/Admin/ManageAccount'
 import { HomePage } from '~/pages/HomePage'
@@ -14,10 +15,9 @@ const rootRoute = createBrowserRouter(
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             </Route>
-            {/* Default layout */}
-            <Route>
-                {/* HomePage */}
-                <Route path="/" element={<HomePage />} />
+            {/* User layout */}
+            {/* HomePage */}
+            <Route path="/" element={<UserLayout />}>
                 <Route path="/class" element={<></>} />
                 <Route path="/lessons" element={<LessonPage />} />
             </Route>

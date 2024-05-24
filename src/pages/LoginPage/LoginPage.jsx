@@ -54,14 +54,17 @@ const LoginPage = () => {
                 success: 'Đăng nhập thành công',
                 error: 'Đăng nhập thất bại',
             })
-            clientInstance.setAccessToken(res.accessToken)
-            const resUserData = await userAction.getCurrentUser()
-            login({
-                id: resUserData.id,
-                name: resUserData.teacherName,
-                email: resUserData.email,
-                isAdmin: resUserData.role === 'user' ? false : true,
-            })
+            if (res) {
+                clientInstance.setAccessToken(res.accessToken)
+                const resUserData = await userAction.getCurrentUser()
+                login({
+                    id: resUserData.id,
+                    name: resUserData.teacherName,
+                    email: resUserData.email,
+                    isAdmin: resUserData.role === 'user' ? false : true,
+                })
+                navigate('/')
+            }
         } catch (error) {}
     }
     return (
