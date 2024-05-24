@@ -2,6 +2,7 @@ import { createBrowserRouter, createRoutesFromElements, Route } from 'react-rout
 import { AdminLayout } from '~/components/AdminLayout'
 import { AdminLoginPage } from '~/pages/Admin/AdminLoginPage'
 import { ManageAccount } from '~/pages/Admin/ManageAccount'
+import { HomePage } from '~/pages/HomePage'
 import { LessonPage } from '~/pages/LessonPage'
 import { ForgotPasswordPage, LoginPage } from '~/pages/LoginPage'
 
@@ -16,7 +17,7 @@ const rootRoute = createBrowserRouter(
             {/* Default layout */}
             <Route>
                 {/* HomePage */}
-                <Route path="/" element={<h1>Hello</h1>} />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/class" element={<></>} />
                 <Route path="/lessons" element={<LessonPage />} />
             </Route>
