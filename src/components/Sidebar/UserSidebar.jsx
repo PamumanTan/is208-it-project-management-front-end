@@ -1,6 +1,5 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import List from '@mui/material/List'
 import Divider from '@mui/material/Divider'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
@@ -9,6 +8,7 @@ import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import SidebarItem from './SidebarItem'
 import userStore from '~/stores/userStore'
+import LogOutButton from '../Button/LogOutButton'
 
 const UserSidebar = () => {
     const user = userStore()
@@ -26,9 +26,7 @@ const UserSidebar = () => {
                     <Divider />
                 </Box>
             </div>
-            <div className="flex items-center justify-center">
-                <Button variant="contained">Đăng xuất</Button>
-            </div>
+            <LogOutButton />
         </div>
     )
 }
