@@ -8,20 +8,64 @@ import InputLabel from '@mui/material/InputLabel'
 import FilledInput from '@mui/material/FilledInput'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { clientInstance } from '~/services/axios'
+import authAction from '~/services/axios/actions/auth.action'
+import userStore from '~/stores/userStore'
+import userAction from '~/services/axios/actions/user.action'
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const LoginPage = () => {
+    const navigate = useNavigate()
+    const { login } = userStore()
     const [userName, setuserName] = useState('')
     const [password, setpassword] = useState('')
     const [showPassword, setshowPassword] = useState(false)
-    const handleOnBlurUserName = (e) => {
+    const handleOnChangeUserName = (e) => {
         setuserName(e.target.value)
     }
-    const handleOnBlurPassword = (value) => {
-        setpassword(value)
+    const handleOnChangePassword = (e) => {
+        setpassword(e.target.value)
     }
     const handleClickShowPassword = () => setshowPassword((show) => !show)
     const handleMouseDownPassword = (event) => {
         event.preventDefault()
+    }
+    const handleForgotPassword = () => navigate('/forgot-password')
+    const handleLogin = async (e) => {
+        e.preventDefault()
+        if (userName.trim() === '' || password.trim() === '') {
+            toast.error('Email/Password đang trống')
+            return
+        }
+        if (!emailRegex.test(userName)) {
+            toast.error('Email không hợp lệ')
+            return
+        }
+        if (password.length < 8) {
+            toast.error('Password tối thiểu 8 ký tự')
+            return
+        }
+        try {
+            const res = await toast.promise(authAction.loginUser(userName, password), {
+                pending: 'Đang đăng nhập',
+                success: 'Đăng nhập thành công',
+                error: 'Đăng nhập thất bại',
+            })
+            if (res) {
+                clientInstance.setAccessToken(res.accessToken)
+                const resUserData = await userAction.getCurrentUser()
+                login({
+                    id: resUserData.id,
+                    name: resUserData.teacherName,
+                    email: resUserData.email,
+                    isAdmin: resUserData.role === 'user' ? false : true,
+                })
+                navigate('/')
+            }
+        } catch (error) {}
     }
     return (
         <div className="flex flex-col items-center">
@@ -31,16 +75,17 @@ const LoginPage = () => {
                 <div className="flex flex-col gap-7">
                     <TextField
                         id="filled-basic"
-                        label="Mã giáo viên"
+                        label="Email/Mã giáo viên"
                         variant="filled"
-                        sx={{ m: 1, width: '35ch' }}
-                        onBlur={handleOnBlurUserName}
+                        sx={{ m: 1, width: '40ch' }}
+                        onChange={handleOnChangeUserName}
                     />
-                    <FormControl sx={{ m: 1, width: '35ch' }} variant="filled">
+                    <FormControl sx={{ m: 1, width: '40ch' }} variant="filled">
                         <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
                         <FilledInput
                             id="filled-adornment-password"
                             type={showPassword ? 'text' : 'password'}
+                            onChange={handleOnChangePassword}
                             endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
@@ -57,8 +102,12 @@ const LoginPage = () => {
                     </FormControl>
                 </div>
                 <div className="flex w-full flex-row items-center justify-between py-5">
-                    <Button variant="text">Quên mật khẩu ?</Button>
-                    <Button variant="contained">Đăng nhập</Button>
+                    <Button variant="text" onClick={handleForgotPassword}>
+                        Quên mật khẩu ?
+                    </Button>
+                    <Button variant="contained" onClick={handleLogin}>
+                        Đăng nhập
+                    </Button>
                 </div>
             </div>
         </div>

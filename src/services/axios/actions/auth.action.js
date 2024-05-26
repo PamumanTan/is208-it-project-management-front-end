@@ -17,6 +17,21 @@ const authAction = {
             }
         })
     },
+    loginUser(email, password) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const res = await api.post(authEndpoint['user-login'], {
+                    email,
+                    password,
+                })
+                const data = res.data.data
+
+                resolve(data)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
 }
 
 export default authAction
