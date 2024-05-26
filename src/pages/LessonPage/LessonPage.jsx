@@ -9,11 +9,23 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Button from '@mui/material/Button'
 import { CommentLessonModal } from '~/components/Modal/CommentLessonModal'
+import { useQuery } from '@tanstack/react-query'
+import lessonsAction from '~/services/axios/actions/lessons.action'
+import { toast } from 'react-toastify'
 
 export default function LessonPage() {
+    const { data } = useQuery({
+        queryKey: ['get-all-lessons'],
+        queryFn: lessonsAction.getLessonsNow,
+    })
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false)
+    /**
+     * @type {[import('~/types/lesson.d').Lesson | null]}
+     */
     const [choseLesson, setChoseLesson] = useState(null)
     const [comment, setComment] = useState('')
+
+    console.log('data: ', data)
 
     const handleCommentModalOpen = (id) => {
         setIsCommentModalOpen(true)
@@ -26,6 +38,15 @@ export default function LessonPage() {
 
     const handleCommentSubmit = async () => {
         try {
+            const res = await toast.promise(
+                lessonsAction.postCommentToLesson(choseLesson._id, comment),
+                {
+                    pending: 'Đang lưu nhận xét',
+                    success: 'Lưu thành công',
+                    error: 'Lưu thất bại',
+                },
+            )
+
             setIsCommentModalOpen(false)
         } catch (error) {}
     }
@@ -48,30 +69,33 @@ export default function LessonPage() {
                         </TableRow>
                     </TableHead>
                     <TableBody className="[&_td]:text-center [&_th]:text-center">
-                        <TableRow
-                            // key={row.name}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell component="th" scope="row">
-                                1
-                            </TableCell>
-                            <TableCell>10A1</TableCell>
-                            <TableCell>Toán</TableCell>
-                            <TableCell>
-                                <div className="flex flex-row justify-center gap-2">
-                                    <Button variant="contained" color="info">
-                                        Điểm danh
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        color="success"
-                                        onClick={handleCommentModalOpen}
-                                    >
-                                        Nhận xét
-                                    </Button>
-                                </div>
-                            </TableCell>
-                        </TableRow>
+                        {data &&
+                            data.map((value) => (
+                                <TableRow
+                                    key={value._id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {value.lessonNum}
+                                    </TableCell>
+                                    <TableCell>{value.class.className}</TableCell>
+                                    <TableCell>{value.subject.subjectName}</TableCell>
+                                    <TableCell>
+                                        <div className="flex flex-row justify-center gap-2">
+                                            <Button variant="contained" color="info">
+                                                Điểm danh
+                                            </Button>
+                                            <Button
+                                                variant="contained"
+                                                color="success"
+                                                onClick={handleCommentModalOpen}
+                                            >
+                                                Nhận xét
+                                            </Button>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -79,9 +103,9 @@ export default function LessonPage() {
             <CommentLessonModal
                 open={isCommentModalOpen}
                 onClose={() => setIsCommentModalOpen(false)}
-                classId={'10A1'}
-                lesson={'1'}
-                subject={'Toán'}
+                classId={choseLesson?.class._id}
+                lesson={choseLesson?.lessonNum}
+                subject={choseLesson?.subject.subjectName}
                 comment={comment}
                 onChangeComment={handleChangeComment}
                 onSubmit={handleCommentSubmit}
