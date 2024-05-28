@@ -9,6 +9,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import SidebarItem from './SidebarItem'
 import userStore from '~/stores/userStore'
 import LogOutButton from '../Button/LogOutButton'
+import routing from '~/configs/routing'
 
 const UserSidebar = () => {
     const user = userStore()
@@ -19,7 +20,11 @@ const UserSidebar = () => {
                 <Box sx={{ width: 250 }} role="presentation">
                     <List>
                         <SidebarItem text={'Thời khóa biểu'} icon={<CalendarMonthIcon />} />
-                        <SidebarItem text={'Lịch dạy'} icon={<AccessAlarmIcon />} />
+                        <SidebarItem
+                            href={routing['teacher-lessons']}
+                            text={'Lịch dạy'}
+                            icon={<AccessAlarmIcon />}
+                        />
                         <SidebarItem text={'Lớp chủ nhiệm'} icon={<PeopleOutlineIcon />} />
                         <SidebarItem text={'Thông tin tài khoản'} icon={<AccountCircleIcon />} />
                     </List>

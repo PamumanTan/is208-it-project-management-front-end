@@ -12,10 +12,15 @@ export default function CommentLessonModal({
     comment,
     onChangeComment,
 }) {
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        onSubmit()
+    }
+
     return (
         <Modal title={'Nhận xét buổi học'} open={open} onClose={onClose}>
             <form
-                onSubmit={onSubmit}
+                onSubmit={handleSubmit}
                 className="flex flex-col gap-3 px-4 disabled:[&_input]:bg-gray-200 disabled:[&_input]:text-gray-500"
             >
                 <div className="flex flex-col gap-1">

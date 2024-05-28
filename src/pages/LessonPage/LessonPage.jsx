@@ -16,7 +16,7 @@ import { toast } from 'react-toastify'
 export default function LessonPage() {
     const { data } = useQuery({
         queryKey: ['get-all-lessons'],
-        queryFn: lessonsAction.getLessonsNow,
+        queryFn: lessonsAction.getTeacherLessonsNow,
     })
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false)
     /**
@@ -27,9 +27,10 @@ export default function LessonPage() {
 
     console.log('data: ', data)
 
-    const handleCommentModalOpen = (id) => {
+    const handleCommentModalOpen = (lesson) => {
+        setChoseLesson(lesson)
         setIsCommentModalOpen(true)
-        setComment('')
+        setComment(lesson.comment || '')
     }
 
     const handleChangeComment = (e) => {
@@ -88,7 +89,7 @@ export default function LessonPage() {
                                             <Button
                                                 variant="contained"
                                                 color="success"
-                                                onClick={handleCommentModalOpen}
+                                                onClick={() => handleCommentModalOpen(value)}
                                             >
                                                 Nhận xét
                                             </Button>
@@ -103,7 +104,7 @@ export default function LessonPage() {
             <CommentLessonModal
                 open={isCommentModalOpen}
                 onClose={() => setIsCommentModalOpen(false)}
-                classId={choseLesson?.class._id}
+                classId={choseLesson?.class.className}
                 lesson={choseLesson?.lessonNum}
                 subject={choseLesson?.subject.subjectName}
                 comment={comment}
