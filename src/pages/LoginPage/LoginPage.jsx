@@ -58,7 +58,7 @@ const LoginPage = () => {
                 clientInstance.setAccessToken(res.accessToken)
                 const resUserData = await userAction.getCurrentUser()
                 login({
-                    id: resUserData.id,
+                    id: resUserData._id,
                     name: resUserData.teacherName,
                     email: resUserData.email,
                     isAdmin: resUserData.role === 'user' ? false : true,

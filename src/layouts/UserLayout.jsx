@@ -6,6 +6,7 @@ import userStore from '~/stores/userStore'
 const UserLayout = () => {
     const user = userStore()
     const navigate = useNavigate()
+    // console.log('user: ', user);
     if (!(user && user.id)) {
         navigate('/login')
     }
