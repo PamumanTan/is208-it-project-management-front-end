@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { LogOutModal } from '../Modal/LogOutModal'
 import { toast } from 'react-toastify'
 
-const LogOutButton = () => {
+const LogOutButton = ({ isAdmin }) => {
     const { user, logout } = userStore()
     const navigate = useNavigate()
     const [openModal, setopenModal] = useState(false)
@@ -16,7 +16,11 @@ const LogOutButton = () => {
         toast.success('Đăng xuất thành công!')
         logout()
         localStorage.removeItem('access-token')
-        navigate('/login')
+        if (isAdmin) {
+            navigate('admin/login')
+        } else {
+            navigate('/login')
+        }
     }
     return (
         <>

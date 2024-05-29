@@ -10,5 +10,5 @@ export default function HomePage() {
         toast.error('Bạn cần đăng nhập trước khi thực hiện chức năng này !')
         navigate('/login')
     }
-    return <div>Hi, {user.username}</div>
+    return <div className="flex h-full w-full flex-col items-center justify-center">Home</div>
 }

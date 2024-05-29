@@ -24,7 +24,7 @@ const AdminSidebar = () => {
                     <Divider />
                 </Box>
             </div>
-            <LogOutButton />
+            <LogOutButton isAdmin={true} />
         </div>
     )
 }

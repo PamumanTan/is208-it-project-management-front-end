@@ -25,7 +25,7 @@ export default function LessonPage() {
     const [choseLesson, setChoseLesson] = useState(null)
     const [comment, setComment] = useState('')
 
-    console.log('data: ', data)
+    // console.log('data: ', data)
 
     const handleCommentModalOpen = (lesson) => {
         setChoseLesson(lesson)

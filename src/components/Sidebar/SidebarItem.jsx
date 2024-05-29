@@ -9,10 +9,19 @@ const SidebarItem = ({ text, icon, href }) => {
     return (
         <ListItem key={text} disablePadding>
             <Link className="w-full" to={href}>
-                <ListItemButton>
-                    <ListItemIcon>{icon}</ListItemIcon>
-                    <ListItemText primary={text} />
-                </ListItemButton>
+                {href === window.location.pathname ? (
+                    <div className="bg-blue-500 text-white">
+                        <ListItemButton>
+                            <ListItemIcon>{icon}</ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItemButton>
+                    </div>
+                ) : (
+                    <ListItemButton>
+                        <ListItemIcon>{icon}</ListItemIcon>
+                        <ListItemText primary={text} />
+                    </ListItemButton>
+                )}
             </Link>
         </ListItem>
     )

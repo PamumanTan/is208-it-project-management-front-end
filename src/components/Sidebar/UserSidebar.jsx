@@ -10,6 +10,7 @@ import SidebarItem from './SidebarItem'
 import userStore from '~/stores/userStore'
 import LogOutButton from '../Button/LogOutButton'
 import routing from '~/configs/routing'
+import { useParams } from 'react-router-dom'
 
 const UserSidebar = () => {
     const user = userStore()
@@ -19,19 +20,31 @@ const UserSidebar = () => {
                 <p className="py-5 text-2xl">Hi, {user && user.isLogin ? user.username : 'user'}</p>
                 <Box sx={{ width: 250 }} role="presentation">
                     <List>
-                        <SidebarItem text={'Thời khóa biểu'} icon={<CalendarMonthIcon />} />
                         <SidebarItem
-                            href={routing['teacher-lessons']}
+                            text={'Thời khóa biểu'}
+                            icon={<CalendarMonthIcon />}
+                            href={routing['teacher-timetable']}
+                        />
+                        <SidebarItem
                             text={'Lịch dạy'}
                             icon={<AccessAlarmIcon />}
+                            href={routing['teacher-schedule']}
                         />
-                        <SidebarItem text={'Lớp chủ nhiệm'} icon={<PeopleOutlineIcon />} />
-                        <SidebarItem text={'Thông tin tài khoản'} icon={<AccountCircleIcon />} />
+                        <SidebarItem
+                            text={'Quản lý tiết học'}
+                            icon={<PeopleOutlineIcon />}
+                            href={routing['teacher-lessons']}
+                        />
+                        <SidebarItem
+                            text={'Thông tin tài khoản'}
+                            icon={<AccountCircleIcon />}
+                            href={routing['teacher-info']}
+                        />
                     </List>
                     <Divider />
                 </Box>
             </div>
-            <LogOutButton />
+            <LogOutButton isAdmin={false} />
         </div>
     )
 }
