@@ -11,21 +11,16 @@ import Button from '@mui/material/Button'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 import lessonsAction from '~/services/axios/actions/lessons.action'
-import { useQuery } from '@tanstack/react-query'
 import { getWeekNumber, formatDate } from '~/helpers/formats/date.format'
 import DayButton from '~/components/Button/DayButton'
 
 const SchedulePage = () => {
-    const { todayData } = useQuery({
-        queryKey: ['get-today-lessons'],
-        queryFn: lessonsAction.getTeacherLessonsNow,
-    })
+    const currentDate = new Date()
     const [data, setData] = useState()
-    // setData(todayData)
+    const [day, setDay] = useState(currentDate)
 
     // date handle
     const weekdays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
-    const currentDate = new Date()
     const dayOfWeek = currentDate.getDay() - 1
     const today = weekdays[dayOfWeek]
     // const day = new Date(currentDate)
@@ -35,7 +30,6 @@ const SchedulePage = () => {
     lastDayOfWeek.setDate(currentDate.getDate() + (6 - dayOfWeek))
     const firstDay = formatDate(firstDayOfWeek)
     const lastDay = formatDate(lastDayOfWeek)
-    const [day, setDay] = useState(currentDate)
     const changeDay = (index) => {
         let temp = new Date(day)
         temp.setDate(day.getDate() + index - (day.getDay() - 1))
@@ -46,6 +40,7 @@ const SchedulePage = () => {
             try {
                 const res = await lessonsAction.getTeacherLessonsNow()
                 setData(res)
+                setDay(currentDate)
             } catch (error) {
                 console.log(error)
             }
@@ -111,7 +106,9 @@ const SchedulePage = () => {
                                 data.map((value) => (
                                     <TableRow
                                         key={value._id}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        sx={{
+                                            '&:last-child td, &:last-child th': { border: 0 },
+                                        }}
                                     >
                                         <TableCell component="th" scope="row">
                                             {value.lessonNum}
@@ -126,6 +123,11 @@ const SchedulePage = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                {data && data.length == 0 && (
+                    <div className="flex h-10 w-full items-center justify-center">
+                        Không có lịch dạy
+                    </div>
+                )}
             </Container>
         </div>
     )

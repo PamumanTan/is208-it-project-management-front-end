@@ -17,6 +17,8 @@ import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import routing from '~/configs/routing'
 import { clientInstance } from '~/services/axios'
+import userAction from '~/services/axios/actions/user.action'
+import userStore from '~/stores/userStore'
 
 function Copyright(props) {
     return (
@@ -35,6 +37,7 @@ const defaultTheme = createTheme()
 
 export default function AdminLoginPage() {
     const navigate = useNavigate()
+    const { user, login } = userStore()
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -53,9 +56,19 @@ export default function AdminLoginPage() {
                     error: 'Đăng nhập thất bại',
                 },
             )
-            // console.log("res: ", res);
-            clientInstance.setAccessToken(res.accessToken)
-            navigate(routing['manage-account'])
+            // console.log('res: ', res)
+            if (res) {
+                clientInstance.setAccessToken(res.accessToken)
+                const resUserData = await userAction.getCurrentUser()
+                login({
+                    id: resUserData._id,
+                    name: resUserData.teacherName,
+                    email: resUserData.email,
+                    isAdmin: true,
+                })
+                console.log(user)
+                navigate(routing['manage-account'])
+            }
         } catch (error) {}
     }
 

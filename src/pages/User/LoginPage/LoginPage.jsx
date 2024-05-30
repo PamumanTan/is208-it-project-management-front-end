@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -19,7 +19,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const LoginPage = () => {
     const navigate = useNavigate()
-    const { login } = userStore()
+    const { user, login } = userStore()
     const [userName, setuserName] = useState('')
     const [password, setpassword] = useState('')
     const [showPassword, setshowPassword] = useState(false)
@@ -67,6 +67,11 @@ const LoginPage = () => {
             }
         } catch (error) {}
     }
+    useEffect(() => {
+        if (user && user.id) {
+            navigate('/')
+        }
+    }, [])
     return (
         <div className="flex flex-col items-center">
             <h1 className="my-14 text-4xl font-bold">Website Sổ Đầu Bài</h1>

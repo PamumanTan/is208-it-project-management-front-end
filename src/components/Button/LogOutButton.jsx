@@ -14,13 +14,13 @@ const LogOutButton = ({ isAdmin }) => {
     }
     const handleLogOut = () => {
         toast.success('Đăng xuất thành công!')
-        logout()
-        localStorage.removeItem('access-token')
         if (isAdmin) {
-            navigate('admin/login')
+            navigate('/admin/login')
         } else {
             navigate('/login')
         }
+        logout()
+        localStorage.removeItem('access-token')
     }
     return (
         <>

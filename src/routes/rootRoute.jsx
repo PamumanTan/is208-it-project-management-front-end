@@ -3,6 +3,9 @@ import { AdminLayout } from '~/layouts/AdminLayout'
 import UserLayout from '~/layouts/UserLayout/UserLayout'
 import { AdminLoginPage } from '~/pages/Admin/AdminLoginPage'
 import { ManageAccount } from '~/pages/Admin/ManageAccount'
+import { ManageClass } from '~/pages/Admin/ManageClass'
+import { ManageSchedule } from '~/pages/Admin/ManageSchedule'
+import ManageTimeTable from '~/pages/Admin/ManageTimeTable/ManageTimeTable'
 import { HomePage } from '~/pages/User/HomePage'
 import { InfoPage } from '~/pages/User/InfoPage'
 import { LessonPage } from '~/pages/User/LessonPage'
@@ -29,9 +32,14 @@ const rootRoute = createBrowserRouter(
             </Route>
 
             {/* Admin layout */}
+
+            <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route path="/admin" element={<AdminLayout />}>
-                <Route path="login" element={<AdminLoginPage />} />
+                {/* <Route path="login" element={<AdminLoginPage />} /> */}
                 <Route path="manage-account" element={<ManageAccount />} />
+                <Route path="manage-schedule" element={<ManageSchedule />} />
+                <Route path="manage-timetable" element={<ManageTimeTable />} />
+                <Route path="manage-class" element={<ManageClass />} />
             </Route>
         </Route>,
     ),
