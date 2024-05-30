@@ -4,6 +4,7 @@ import userStore from '~/stores/userStore'
 import { useNavigate } from 'react-router-dom'
 import { LogOutModal } from '../Modal/LogOutModal'
 import { toast } from 'react-toastify'
+import { clientInstance } from '~/services/axios'
 
 const LogOutButton = ({ isAdmin }) => {
     const { user, logout } = userStore()
@@ -20,7 +21,8 @@ const LogOutButton = ({ isAdmin }) => {
             navigate('/login')
         }
         logout()
-        localStorage.removeItem('access-token')
+        clientInstance.removeAccessToken()
+        // localStorage.removeItem('access-token')
     }
     return (
         <>

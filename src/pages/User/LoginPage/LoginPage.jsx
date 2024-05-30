@@ -63,13 +63,14 @@ const LoginPage = () => {
                     email: resUserData.email,
                     isAdmin: resUserData.role === 'user' ? false : true,
                 })
-                navigate('/')
+                navigate('/schedule')
             }
         } catch (error) {}
     }
     useEffect(() => {
-        if (user && user.id) {
-            navigate('/')
+        if (clientInstance.getAccessToken()) {
+            toast.success('Bạn đã đăng nhập. Phiên đăng nhập sẽ được tiếp tục !')
+            navigate('/schedule')
         }
     }, [])
     return (
