@@ -33,7 +33,7 @@ const AdminSidebar = () => {
                             href={routing['manage-schedule']}
                         />
                         <SidebarItem
-                            text={'Quản lý Chủ nhiệm'}
+                            text={'Quản lý Lớp học'}
                             icon={<PeopleOutlineIcon />}
                             href={routing['manage-class']}
                         />

@@ -1,11 +1,10 @@
 import { api } from '..'
-import userEndpoint from '../endpoints/users.endpoint'
 
-const userAction = {
-    getCurrentUser() {
+const classAction = {
+    getClassStudent(id) {
         return new Promise(async (resolve, reject) => {
             try {
-                const res = await api.get(userEndpoint['current-user'])
+                const res = await api.get(`/classes/${id}/students`)
                 const data = res.data.data
 
                 resolve(data)
@@ -14,10 +13,10 @@ const userAction = {
             }
         })
     },
-    getUserByID(id) {
+    getAllClass() {
         return new Promise(async (resolve, reject) => {
             try {
-                const res = await api.get(`/teachers/${id}`)
+                const res = await api.get(`/classes/`)
                 const data = res.data.data
 
                 resolve(data)
@@ -27,5 +26,4 @@ const userAction = {
         })
     },
 }
-
-export default userAction
+export default classAction

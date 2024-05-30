@@ -4,9 +4,10 @@ import { AdminSidebar } from '~/components/Sidebar'
 import routing from '~/configs/routing'
 import userStore from '~/stores/userStore'
 import userAction from '~/services/axios/actions/user.action'
+import { clientInstance } from '~/services/axios'
 
 export default function AdminLayout() {
-    const user = userStore()
+    const { user, login } = userStore()
     const navigate = useNavigate()
     useEffect(() => {
         const checkLoginToken = async () => {

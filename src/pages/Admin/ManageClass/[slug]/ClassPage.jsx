@@ -10,30 +10,26 @@ import TableRow from '@mui/material/TableRow'
 import Button from '@mui/material/Button'
 import classAction from '~/services/axios/actions/class.action'
 import userAction from '~/services/axios/actions/user.action'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-const ManageClass = () => {
-    const [classData, setClassData] = useState([])
-    const [teacherData, setTeacherData] = useState([])
+const ClassPage = () => {
     const navigate = useNavigate()
-    const handleViewClass = (value) => {
-        navigate(`/admin/manage-class/${value}`)
+    const param = useParams()
+    const classData = {
+        _id: param.slug,
     }
+    const [students, setStudents] = useState([])
+    const [className, setclassName] = useState('')
     const handleButtonClick = () => {
         toast.warning('Chức năng sẽ sớm được hoàn thiện !')
     }
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await classAction.getAllClass()
-                const updatedClassData = await Promise.all(
-                    res.map(async (value) => {
-                        const resTeacherData = await userAction.getUserByID(value.formTeacher)
-                        value.formTeacher = resTeacherData.teacherName
-                        return value
-                    }),
-                )
-                setClassData(updatedClassData)
+                const res = await classAction.getClassStudent(classData._id)
+                setclassName(res[0].class.className)
+                setStudents(res)
             } catch (error) {
                 console.log(error)
             }
@@ -42,7 +38,16 @@ const ManageClass = () => {
     }, [])
     return (
         <div className="flex h-full w-full flex-col">
-            <h1 className="mb-8 text-3xl font-bold">Quản lý Lớp học</h1>
+            <div className="flex flex-row justify-between">
+                <h1 className="mb-8 text-3xl font-bold">Quản lý Lớp {className}</h1>
+                <Button
+                    onClick={() => {
+                        navigate('/admin/manage-class')
+                    }}
+                >
+                    Trở lại trang trước
+                </Button>
+            </div>
             <Container>
                 <TableContainer component={Paper}>
                     <Table
@@ -53,14 +58,14 @@ const ManageClass = () => {
                         <TableHead>
                             <TableRow className="bg-slate-300 [&_th]:text-lg">
                                 <TableCell align="center">STT</TableCell>
-                                <TableCell align="center">Lớp</TableCell>
-                                <TableCell align="center">GVCN</TableCell>
+                                <TableCell align="center">Tên</TableCell>
+                                <TableCell align="center">Giới tính</TableCell>
                                 <TableCell align="center">Chức năng</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody className="[&_th]:text-center">
-                            {classData &&
-                                classData.map((value, index) => (
+                            {students &&
+                                students.map((value, index) => (
                                     <TableRow
                                         key={value._id}
                                         sx={{
@@ -70,21 +75,17 @@ const ManageClass = () => {
                                         <TableCell component="th" scope="row">
                                             {index + 1}
                                         </TableCell>
-                                        <TableCell align="center">{value.className}</TableCell>
-                                        <TableCell align="center">{value.formTeacher}</TableCell>
+                                        <TableCell align="center">{value.studentName}</TableCell>
+                                        <TableCell align="center">{value.male}</TableCell>
                                         <TableCell align="center">
                                             <div className="flex flex-row items-center justify-center gap-5">
-                                                {/* <Link to={`/manage-class/${value._id}`}> */}
                                                 <Button
                                                     variant="contained"
                                                     color="info"
-                                                    onClick={() => {
-                                                        handleViewClass(value._id)
-                                                    }}
+                                                    onClick={handleButtonClick}
                                                 >
                                                     Xem
                                                 </Button>
-                                                {/* </Link> */}
                                                 <Button
                                                     variant="contained"
                                                     color="error"
@@ -106,7 +107,7 @@ const ManageClass = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {classData && classData.length == 0 && (
+                {students && students.length == 0 && (
                     <div className="flex h-10 w-full items-center justify-center">
                         Không có thông tin.
                     </div>
@@ -116,4 +117,4 @@ const ManageClass = () => {
     )
 }
 
-export default ManageClass
+export default ClassPage

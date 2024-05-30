@@ -1,9 +1,10 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, Route, useParams } from 'react-router-dom'
 import { AdminLayout } from '~/layouts/AdminLayout'
 import UserLayout from '~/layouts/UserLayout/UserLayout'
 import { AdminLoginPage } from '~/pages/Admin/AdminLoginPage'
 import { ManageAccount } from '~/pages/Admin/ManageAccount'
 import { ManageClass } from '~/pages/Admin/ManageClass'
+import ClassPage from '~/pages/Admin/ManageClass/[slug]/ClassPage'
 import { ManageSchedule } from '~/pages/Admin/ManageSchedule'
 import ManageTimeTable from '~/pages/Admin/ManageTimeTable/ManageTimeTable'
 import { HomePage } from '~/pages/User/HomePage'
@@ -40,6 +41,9 @@ const rootRoute = createBrowserRouter(
                 <Route path="manage-schedule" element={<ManageSchedule />} />
                 <Route path="manage-timetable" element={<ManageTimeTable />} />
                 <Route path="manage-class" element={<ManageClass />} />
+                <Route path="manage-class/:slug" element={<ClassPage />} />
+                {/* <Route path=":slug" element={<ClassPage />} /> */}
+                {/* </Route> */}
             </Route>
         </Route>,
     ),
