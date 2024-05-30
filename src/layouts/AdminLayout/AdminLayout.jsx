@@ -31,9 +31,11 @@ export default function AdminLayout() {
     }, [])
     // console.log(user)
     return (
-        <div className="flex h-full w-full flex-row">
+        <div className="flex h-full w-full flex-row ">
             <AdminSidebar />
-            <Outlet />
+            <div className="h-full w-full px-5 pt-10">
+                <Outlet />
+            </div>
         </div>
     )
 }
