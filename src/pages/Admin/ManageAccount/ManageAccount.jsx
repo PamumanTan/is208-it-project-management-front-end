@@ -91,8 +91,8 @@ export default function ManageAccount() {
     }
 
     return (
-        <div className="container flex flex-col gap-4 p-8">
-            <h1 className="text-2xl font-bold">Quản Lí Tài Khoản</h1>
+        <div className="container flex flex-col gap-4">
+            <h1 className="text-3xl font-bold">Quản Lí Tài Khoản</h1>
             <div className="flex justify-end">
                 <Button variant="contained" onClick={() => setIsOpenAddModal(true)}>
                     Tạo tài khoản

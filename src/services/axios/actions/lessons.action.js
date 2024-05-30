@@ -39,6 +39,22 @@ const lessonsAction = {
             }
         })
     },
+    /**
+     *
+     * @returns {Promise<Lesson[]>}
+     */
+    getTeacherLessonsByDay(date) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const day = date.toISOString()
+                const res = await api.get(`${lessonsEndpoint['get-teacher-lessons-by-day']}/${day}`)
+                const data = res.data.data
+                resolve(data)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
     postCommentToLesson(lessonId, comment) {
         return new Promise(async (resolve, reject) => {
             try {

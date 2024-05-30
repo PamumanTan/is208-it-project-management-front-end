@@ -8,6 +8,7 @@ import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import SidebarItem from './SidebarItem'
 import LogOutButton from '../Button/LogOutButton'
+import routing from '~/configs/routing'
 
 const AdminSidebar = () => {
     return (
@@ -16,15 +17,31 @@ const AdminSidebar = () => {
                 <p className="py-5 text-2xl">Hi, Admin</p>
                 <Box sx={{ width: 250 }} role="presentation">
                     <List>
-                        <SidebarItem text={'Quản lý Thời khóa biểu'} icon={<CalendarMonthIcon />} />
-                        <SidebarItem text={'Quản lý Lịch dạy'} icon={<AccessAlarmIcon />} />
-                        <SidebarItem text={'Quản lý Chủ nhiệm'} icon={<PeopleOutlineIcon />} />
-                        <SidebarItem text={'Quản lý tài khoản'} icon={<AccountCircleIcon />} />
+                        <SidebarItem
+                            text={'Quản lý tài khoản'}
+                            icon={<AccountCircleIcon />}
+                            href={routing['manage-account']}
+                        />
+                        <SidebarItem
+                            text={'Quản lý Thời khóa biểu'}
+                            icon={<CalendarMonthIcon />}
+                            href={routing['manage-timetable']}
+                        />
+                        <SidebarItem
+                            text={'Quản lý Lịch dạy'}
+                            icon={<AccessAlarmIcon />}
+                            href={routing['manage-schedule']}
+                        />
+                        <SidebarItem
+                            text={'Quản lý Chủ nhiệm'}
+                            icon={<PeopleOutlineIcon />}
+                            href={routing['manage-class']}
+                        />
                     </List>
                     <Divider />
                 </Box>
             </div>
-            <LogOutButton />
+            <LogOutButton isAdmin={true} />
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -19,7 +19,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const LoginPage = () => {
     const navigate = useNavigate()
-    const { login } = userStore()
+    const { user, login } = userStore()
     const [userName, setuserName] = useState('')
     const [password, setpassword] = useState('')
     const [showPassword, setshowPassword] = useState(false)
@@ -63,10 +63,16 @@ const LoginPage = () => {
                     email: resUserData.email,
                     isAdmin: resUserData.role === 'user' ? false : true,
                 })
-                navigate('/')
+                navigate('/schedule')
             }
         } catch (error) {}
     }
+    useEffect(() => {
+        if (clientInstance.getAccessToken()) {
+            toast.success('Bạn đã đăng nhập. Phiên đăng nhập sẽ được tiếp tục !')
+            navigate('/schedule')
+        }
+    }, [])
     return (
         <div className="flex flex-col items-center">
             <h1 className="my-14 text-4xl font-bold">Website Sổ Đầu Bài</h1>

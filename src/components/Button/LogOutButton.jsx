@@ -4,8 +4,9 @@ import userStore from '~/stores/userStore'
 import { useNavigate } from 'react-router-dom'
 import { LogOutModal } from '../Modal/LogOutModal'
 import { toast } from 'react-toastify'
+import { clientInstance } from '~/services/axios'
 
-const LogOutButton = () => {
+const LogOutButton = ({ isAdmin }) => {
     const { user, logout } = userStore()
     const navigate = useNavigate()
     const [openModal, setopenModal] = useState(false)
@@ -14,9 +15,14 @@ const LogOutButton = () => {
     }
     const handleLogOut = () => {
         toast.success('Đăng xuất thành công!')
+        if (isAdmin) {
+            navigate('/admin/login')
+        } else {
+            navigate('/login')
+        }
         logout()
-        localStorage.removeItem('access-token')
-        navigate('/login')
+        clientInstance.removeAccessToken()
+        // localStorage.removeItem('access-token')
     }
     return (
         <>
