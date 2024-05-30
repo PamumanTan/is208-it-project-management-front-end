@@ -1,5 +1,5 @@
-const accountEndpoint = {
+const userEndpoint = {
     'current-user': '/teachers/currentTeacher',
 }
 
-export default accountEndpoint
+export default userEndpoint
