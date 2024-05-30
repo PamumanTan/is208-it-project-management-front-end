@@ -40,9 +40,10 @@ const rootRoute = createBrowserRouter(
                 <Route path="manage-account" element={<ManageAccount />} />
                 <Route path="manage-schedule" element={<ManageSchedule />} />
                 <Route path="manage-timetable" element={<ManageTimeTable />} />
-                <Route path="manage-class" element={<ManageClass />}>
-                    <Route path=":slug" element={<ClassPage />} />
-                </Route>
+                <Route path="manage-class" element={<ManageClass />} />
+                <Route path="manage-class/:slug" element={<ClassPage />} />
+                {/* <Route path=":slug" element={<ClassPage />} /> */}
+                {/* </Route> */}
             </Route>
         </Route>,
     ),

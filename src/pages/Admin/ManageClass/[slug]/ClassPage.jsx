@@ -10,12 +10,14 @@ import TableRow from '@mui/material/TableRow'
 import Button from '@mui/material/Button'
 import classAction from '~/services/axios/actions/class.action'
 import userAction from '~/services/axios/actions/user.action'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const ClassPage = () => {
+    const navigate = useNavigate()
+    const param = useParams()
     const classData = {
-        _id: '6640a28da89d08e787ff0e8f',
+        _id: param.slug,
     }
     const [students, setStudents] = useState([])
     const [className, setclassName] = useState('')
@@ -28,7 +30,6 @@ const ClassPage = () => {
                 const res = await classAction.getClassStudent(classData._id)
                 setclassName(res[0].class.className)
                 setStudents(res)
-                console.log(res)
             } catch (error) {
                 console.log(error)
             }
@@ -37,7 +38,16 @@ const ClassPage = () => {
     }, [])
     return (
         <div className="flex h-full w-full flex-col">
-            <h1 className="mb-8 text-3xl font-bold">Quản lý Lớp {className}</h1>
+            <div className="flex flex-row justify-between">
+                <h1 className="mb-8 text-3xl font-bold">Quản lý Lớp {className}</h1>
+                <Button
+                    onClick={() => {
+                        navigate('/admin/manage-class')
+                    }}
+                >
+                    Trở lại trang trước
+                </Button>
+            </div>
             <Container>
                 <TableContainer component={Paper}>
                     <Table

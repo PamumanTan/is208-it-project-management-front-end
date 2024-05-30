@@ -17,7 +17,7 @@ const ManageClass = () => {
     const [teacherData, setTeacherData] = useState([])
     const navigate = useNavigate()
     const handleViewClass = (value) => {
-        navigate(`/manage-class/${value}`)
+        navigate(`/admin/manage-class/${value}`)
     }
     const handleButtonClick = () => {
         toast.warning('Chức năng sẽ sớm được hoàn thiện !')
